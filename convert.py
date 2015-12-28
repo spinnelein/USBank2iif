@@ -5,7 +5,7 @@ import sys, traceback, re
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-account = "USBank Credit"
+account = "USBank Checking"
 default = "Uncleared Transactions"
 
 def error(trans):
