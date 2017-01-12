@@ -24,9 +24,9 @@ ACCNT,"%s",EXP,"%s"
 !ENDTRNS
 '''
 	template = '''
-TRNS,,%s,%s,"%s","%s","%s",,N
-SPL,,%s,%s,"Unsorted Transactions",,"%s",,N
-ENDTRNS''' #transtype,date,account,name,amount,trsanstype,date,negativeamount
+TRNS,,%s,%s,"%s","%s","%s","%s",N
+SPL,,%s,%s,"Unsorted Transactions",,"%s","%s",N
+ENDTRNS''' #transtype,date,account,name,amount,docnum,trsanstype,date,negativeamount,docnum
 
 	output_file.write(head % (default, default))
 	for trans in input_file:
@@ -55,7 +55,9 @@ ENDTRNS''' #transtype,date,account,name,amount,trsanstype,date,negativeamount
 		except:
 			error(trans)
 			continue
-
+		docnum = ''
+		transtype = transtype.strip('"') 
+		transtype = transtype.lstrip("0")
 		name = name.strip('"')
 		name = name.strip("\n")
 		name = name.strip("\r")
@@ -65,8 +67,9 @@ ENDTRNS''' #transtype,date,account,name,amount,trsanstype,date,negativeamount
 			transtype = 'DEPOSIT'
 		else:
 			name = 'Check ' + transtype
+			docnum = transtype
 			transtype = 'CHECK'
-		transact = template % (transtype,date,account,name,amount,transtype,date,-amount)
+		transact = template % (transtype,date,account,name,amount,docnum,transtype,date,-amount,docnum)
 		print transact
 		output_file.write(transact)
 
